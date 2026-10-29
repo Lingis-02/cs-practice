@@ -24,3 +24,68 @@ def parse_record(line):
     return {"city": city,
             "temp": temp,
             "date": date_str}
+
+
+
+
+def read_valid(lines):
+    valid_records = []
+
+    for line in lines:
+        if line.strip() == "":
+            continue
+
+        try:
+            record = parse_record(line)
+            valid_records.append(record)
+        except ValueError:
+            pass
+
+    return valid_records
+
+
+
+
+def average_by_city(records):
+    sums = {}
+    cnts = {}
+
+    for r in records:
+        city = r["city"]
+        temp = r["temp"]
+
+        if city not in sums:
+            sums[city] = temp
+            cnts[city] = 1
+        else:
+            sums[city] = sums[city] + temp
+            cnts[city] = cnts[city] + 1
+
+    averages = {}
+    for city in sums:
+        avg_value = (sums[city]) / (cnts[city])
+        averages[city] = round(avg_value, 1)
+
+    return averages
+
+
+
+
+def warmest_city(records):
+    if not records:
+        return ""
+
+    avg_temps = average_by_city(records)
+    all_cities = sorted(list(avg_temps.keys()))
+
+    best_city = ""
+    max_temp = float("-inf")
+
+    for city in all_cities:
+        current_temp = avg_temps[city]
+
+        if current_temp > max_temp:
+            max_temp = current_temp
+            best_city = city
+
+    return best_city
