@@ -13,7 +13,7 @@ def parse_record(line):
     temp_str = parts[1].strip()
     date_str = parts[2].strip()
 
-    if city == "" or date_str == "":
+    if city == "" or date_str == "" or len(date_str) != 10 or date_str.count("-") != 2:
         raise ValueError("Ошибка во введённых данных. Поле город или дата пусто.")
 
     try:
