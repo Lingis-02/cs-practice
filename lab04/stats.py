@@ -22,7 +22,7 @@ def parse_record(line):
         raise ValueError("Ошибка во введённых данных. Температура не является числом")
 
     return {"city": city,
-            "temp": temp,
+            "temperature": temp,
             "date": date_str}
 
 

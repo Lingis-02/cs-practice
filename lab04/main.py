@@ -1,4 +1,6 @@
 import sys
+
+
 from stats import read_valid, average_by_city, warmest_city
 
 
@@ -41,7 +43,8 @@ def main():
     leader_temp = 0.0
     if leader_city != "":
         all_averages = average_by_city(valid_records)
-        leader_temp = all_averages[leader_city]
+        if leader_city in all_averages:
+            leader_temp = all_averages[leader_city]
 
     print(total_parsed)
     print(errors_count)
