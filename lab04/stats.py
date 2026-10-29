@@ -9,9 +9,9 @@ def parse_record(line):
     if len(parts) != 3:
         raise ValueError("Ошибка во введённых данных. Количество полей не равно трем.")
 
-    city = parts[0].strip()
-    temp_str = parts[1].strip()
-    date_str = parts[2].strip()
+    city = parts[0]
+    temp_str = parts[1]
+    date_str = parts[2]
 
     if city == "" or date_str == "":
         raise ValueError("Ошибка во введённых данных. Поле город или дата пусто.")
