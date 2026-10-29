@@ -1,5 +1,5 @@
 def parse_record(line):
-    clean_line = line.rstrip('\r\n')
+    clean_line = line.strip('\r\n').strip()
 
     if clean_line == "":
         raise ValueError("Ошибка во введённых данных. Пустая строка.")
@@ -9,9 +9,9 @@ def parse_record(line):
     if len(parts) != 3:
         raise ValueError("Ошибка во введённых данных. Количество полей не равно трем.")
 
-    city = parts[0]
-    temp_str = parts[1]
-    date_str = parts[2]
+    city = parts[0].strip()
+    temp_str = parts[1].strip()
+    date_str = parts[2].strip()
 
     if city == "" or date_str == "":
         raise ValueError("Ошибка во введённых данных. Поле город или дата пусто.")
@@ -32,7 +32,7 @@ def read_valid(lines):
     valid_records = []
 
     for line in lines:
-        if line.strip() == "":
+        if line.strip('\r\n').strip() == "":
             continue
 
         try:
@@ -63,8 +63,7 @@ def average_by_city(records):
 
     averages = {}
     for city in sums:
-        avg_value = (sums[city]) / (cnts[city])
-        averages[city] = round(avg_value, 1)
+        averages[city] = (sums[city]) / (cnts[city])
 
     return averages
 
@@ -76,16 +75,7 @@ def warmest_city(records):
         return ""
 
     avg_temps = average_by_city(records)
-    all_cities = sorted(list(avg_temps.keys()))
 
-    best_city = ""
-    max_temp = float("-inf")
-
-    for city in all_cities:
-        current_temp = avg_temps[city]
-
-        if current_temp > max_temp:
-            max_temp = current_temp
-            best_city = city
-
-    return best_city
+    sorted_cities = sorted(avg_temps.keys(), key = lambda city: (-avg_temps[city], city))
+    
+    return sorted_cities[0]
