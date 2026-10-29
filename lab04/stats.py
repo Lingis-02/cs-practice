@@ -52,7 +52,7 @@ def average_by_city(records):
 
     for r in records:
         city = r["city"]
-        temp = r["temp"]
+        temp = r["temperature"]
 
         if city not in sums:
             sums[city] = temp
