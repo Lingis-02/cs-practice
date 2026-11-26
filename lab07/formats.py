@@ -85,3 +85,24 @@ def parse_settings(lines):
 
 
 
+def merge_by_key(rows, extra, key="id"):
+    result = []
+
+    for row in rows:
+        new_row = {}
+        for k in row:
+            new_row[k] = row[k]
+
+        row_id = row.get(key)
+        if row_id in extra:
+            extra_info = extra[row_id]
+            for k in extra_info:
+                if k not in new_row:
+                    new_row[k] = extra_info[k]
+
+        result.append(new_row)
+
+    return result
+
+
+
