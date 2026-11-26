@@ -4,11 +4,7 @@ from pathlib import PurePosixPath
 def count_by_extension(paths):
     counts = {}
     for path in paths:
-        filename = PurePosixPath(path).name
-        if "." in filename:
-            ext = filename.rsplit(".", 1)[1].lower()
-        else:
-            ext = ""
+        ext = PurePosixPath(path).suffix.lstrip(".").lower
         counts[ext] = counts.get(ext, 0) + 1
     return counts
 
@@ -22,10 +18,10 @@ def human_size(n_bytes):
         return f"{n_bytes} Б"
 
     size = float(n_bytes)
-    for unit in ["Кб", "Мб", "Гб", "Тб"]:
+    for unit in ["КБ", "МБ", "ГБ", "ТБ"]:
         size /= 1024.0
-        if size < 1024.0 or unit == "Тб":
+        if size < 1024.0 or unit == "ТБ":
             return f"{size:.1f} {unit}"
 
-    return f"{size:.1f} Тб"
+    return f"{size:.1f} ТБ"
 
