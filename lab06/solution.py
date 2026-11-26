@@ -4,7 +4,7 @@ from pathlib import PurePosixPath
 def count_by_extension(paths):
     counts = {}
     for path in paths:
-        ext = PurePosixPath(path).suffix.lstrip(".").lower
+        ext = PurePosixPath(path).suffix.lstrip(".").lower()
         counts[ext] = counts.get(ext, 0) + 1
     return counts
 
