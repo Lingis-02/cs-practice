@@ -106,3 +106,8 @@ def merge_by_key(rows, extra, key="id"):
 
 
 
+def records_to_json(records):
+    return json.dumps(records, indent=2, sort_keys=True, ensure_ascii=False)
+
+
+
