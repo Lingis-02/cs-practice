@@ -40,15 +40,12 @@ def convert_value(text):
     if low == "false" or low == "no":
         return False
 
-    try:
-        return int(val)
-    except ValueError:
-        pass
-
-    try:
-        return float(val)
-    except ValueError:
-        pass
+    if val.startswith("-"):
+        num_part = val[1:]
+    else:
+        num_part = val
+    if num_part.isdigit():
+        return(int(val))
 
     return val
 
@@ -58,9 +55,9 @@ def parse_settings(lines):
     current_key = ""
 
     for line in lines:
-        if "#" in line:
-            before_comment, _ = line.split("#", 1)
-            line = before_comment
+        comment_index = line.find("#")
+        if comment_index != -1:
+            line = line[:comment_index]
 
         clean = line.strip()
         if clean == "":
@@ -70,7 +67,7 @@ def parse_settings(lines):
             item = clean[1:].strip()
             settings[current_key].append(convert_value(item))
         elif ":" in clean:
-            key, val = clean.split(":", 1)
+            key, _, val = clean.partition(":")
             key = key.strip()
             val = val.strip()
 
