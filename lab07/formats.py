@@ -30,3 +30,58 @@ def csv_to_records(text):
     return records
 
 
+
+def convert_value(text):
+    val = text.strip()
+    low = val.lower()
+
+    if low == "true" or low == "yes":
+        return True
+    if low == "false" or low == "no":
+        return False
+
+    try:
+        return int(val)
+    except ValueError:
+        pass
+
+    try:
+        return float(val.replace(",", "."))
+    except ValueError:
+        pass
+
+    return val
+
+
+def parse_settings(lines):
+    settings = {}
+    current_key = ""
+
+    for line in lines:
+        if "#" in line:
+            before_comment, _ = line.split("#", 1)
+            line = before_comment
+
+        clean = line.strip()
+        if clean == "":
+            continue
+
+        if clean.startswith("-") and current_key != "":
+            item = clean[1:].strip()
+            settings[current_key].append(convert_value(item))
+        elif ":" in clean:
+            key, val = clean.split(":", 1)
+            key = key.strip()
+            val = val.strip()
+
+            if val == "":
+                settings[key] = []
+                current_key = key
+            else:
+                settings[key] = convert_value(val)
+                current_key = ""
+
+    return settings
+
+
+
